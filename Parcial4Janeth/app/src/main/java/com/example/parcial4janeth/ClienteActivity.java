@@ -20,7 +20,6 @@ public class ClienteActivity  extends AppCompatActivity {
 
     private ClientAdapter adapter;
 
-    private ArrayList<MdClientesModel> arrayList;
     private RecyclerView rv;
 
     private EditText eNombre, eApellido, eDir, eCuidad;

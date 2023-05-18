@@ -84,7 +84,7 @@ public class MdVehiculoRepo extends ConexionDb {
         return idDelete;
     }
 
-    public Object viewVehi(int id) {
+    public Object viewVehi(int id, boolean isVehi) {
 
         ConexionDb dbHelper = new ConexionDb(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -96,12 +96,14 @@ public class MdVehiculoRepo extends ConexionDb {
         cursor = db.rawQuery("SELECT * FROM " + Constants.TABLE_NAME_VEHI
                 + subQuery+" ORDER BY smarca ASC", null);
 
-        return this.recordToTable(cursor);
+        return this.recordToTable(cursor, isVehi);
     }
 
-    private Object recordToTable(Cursor cursor){
+    private Object recordToTable(Cursor cursor, boolean isList){
         ArrayList<MdVehiculosModel> lista = new ArrayList<>();
+        boolean isExists = false;
         if (cursor.moveToFirst()) {
+            isExists =true;
             do {
                 MdVehiculosModel model = new MdVehiculosModel();
                 model.setIdVehiculo(cursor.getInt(0));
@@ -113,6 +115,6 @@ public class MdVehiculoRepo extends ConexionDb {
 
         cursor.close();
 
-        return lista.size()>1 ? lista : lista.get(0);
+        return lista.size()>1 ? lista : (isExists) ? (isList) ? lista : lista.get(0): lista;
     }
 }
